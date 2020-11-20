@@ -49,8 +49,6 @@ type FileOperation =
 
 type UnderscoreHandling = Ignore = 0 | Replace = 1 | TrimSuffix = 2
 
-type FileChange = Added | Removed
-
 type LogLevel =
     | Diagnostic
     | Informational
@@ -786,6 +784,7 @@ type MainWindowViewModel() as this =
 
             scanned
             |> Observable.concat watched
+            |> Observable.filter (List.isEmpty >> not)
             |> Observable.map (fun changes ->
                 changes
                 |> List.collect (fun (filePath, change) ->
